@@ -5,11 +5,31 @@
 namespace itis {
 
 void LinkedDequeue::Enqueue(Element e) {
-  // TODO: напишите здесь свой код ...
+  if (size_ == 0) {
+    auto node = new DoublyNode(e, nullptr, nullptr);
+    front_ = node;
+    back_ = node;
+    size_ = 1;
+  } else {
+    auto node = new DoublyNode(e, back_, nullptr);
+    back_->next = node;
+    back_ = node;
+    size_++;
+  }
 }
 
 void LinkedDequeue::EnqueueFront(Element e) {
-  // TODO: напишите здесь свой код ...
+  if (size_ == 0) {
+    auto node = new DoublyNode(e, nullptr, nullptr);
+    front_ = node;
+    back_ = node;
+    size_ = 1;
+  } else {
+    auto node = new DoublyNode(e, nullptr, front_);
+    front_->previous = node;
+    front_ = node;
+    size_++;
+  }
 }
 
 void LinkedDequeue::Dequeue() {
@@ -17,7 +37,18 @@ void LinkedDequeue::Dequeue() {
     throw std::logic_error("cannot not dequeue from empty queue");
   }
 
-  // TODO: напишите здесь свой код ...
+  if (size_ == 1) {
+    delete front_;
+    front_ = nullptr;
+    back_ = nullptr;
+    size_ = 0;
+  } else {
+    auto temp = front_->next;
+    delete front_;
+    front_ = temp;
+    front_->previous = nullptr;
+    size_--;
+  }
 }
 
 void LinkedDequeue::DequeueBack() {
@@ -25,11 +56,31 @@ void LinkedDequeue::DequeueBack() {
     throw std::logic_error("cannot not dequeue from empty queue");
   }
 
-  // TODO: напишите здесь свой код ...
+  if (size_ == 1) {
+    delete front_;
+    front_ = nullptr;
+    back_ = nullptr;
+    size_ = 0;
+  } else {
+    auto temp = back_->previous;
+    delete back_;
+    back_ = temp;
+    back_->next = nullptr;
+    size_--;
+  }
 }
 
 void LinkedDequeue::Clear() {
-  // TODO: напишите здесь свой код ...
+  auto curr = front_;
+  for (int i = 0; i < size_; ++i) {
+    auto temp = curr -> next;
+    delete curr;
+    curr = temp;
+  }
+  delete curr;
+  size_ = 0;
+  front_ = nullptr;
+  back_ = nullptr;
 }
 
 // === РЕАЛИЗОВАНО ===

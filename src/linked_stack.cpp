@@ -5,7 +5,15 @@
 namespace itis {
 
 void LinkedStack::Push(Element e) {
-  // TODO: напишите здесь свой код ...
+  if (size_ == 0) {
+    auto node = new SinglyNode(e, nullptr);
+    top_ = node;
+    size_ = 1;
+  } else {
+    auto node = new SinglyNode(e, top_);
+    top_ = node;
+    size_++;
+  }
 }
 
 void LinkedStack::Pop() {
@@ -13,11 +21,28 @@ void LinkedStack::Pop() {
     throw std::logic_error("cannot pop out from empty stack");
   }
 
-  // TODO: напишите здесь свой код ...
+  if (size_ == 1) {
+    delete top_;
+    top_ = nullptr;
+    size_ = 0;
+  } else {
+    auto temp = top_->next;
+    delete top_;
+    top_ = temp;
+    size_--;
+  }
 }
 
 void LinkedStack::Clear() {
-  // TODO: напишите здесь свой код ...
+  auto curr = top_;
+  for (int i = 0; i < size_; ++i) {
+    auto temp = curr -> next;
+    delete curr;
+    curr = temp;
+  }
+  delete curr;
+  size_ = 0;
+  top_ = nullptr;
 }
 
 // === РЕАЛИЗОВАНО ===
